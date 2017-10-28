@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Ex18.0</string>
+    <string name="text">This app demonstrate the use of IntentService</string>
+    <string name="button">Change image</string>
+</resources>

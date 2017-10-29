@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.Random;
+
+//https://github.com/melardev/AndroidBackgroundTuts/tree/master/app/src/main/java/com/melardev/backgrounddemos
 
 public class MainActivity extends Activity {
 
@@ -43,8 +46,10 @@ public class MainActivity extends Activity {
                         "http://www.calcalist.co.il/PicServer2/20122005/336292/60_F.jpg"};
                 Random rnd = new Random();
                 Intent intent = new Intent(context,MyService.class);
-                intent.putExtra(MyService.EXTRA_URL,files[rnd.nextInt(5)]);
-                intent.putExtra(MyService.EXTRA_RECEIVER, intentReceiver);
+                intent.putExtra("url",files[rnd.nextInt(5)]);
+                String destination = getFilesDir() + "/image.jpg";
+                intent.putExtra("destination",destination);
+                intent.putExtra("receiver", intentReceiver);
                 startService(intent);
 
             }
@@ -75,7 +80,8 @@ public class MainActivity extends Activity {
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             super.onReceiveResult(resultCode, resultData);
-            mainActivity.onImageDownloaded((Bitmap) resultData.getParcelable("img"));
+ //           mainActivity.onImageDownloaded((Bitmap) resultData.getParcelable("img"));
+            mainActivity.onImageDownloaded(BitmapFactory.decodeFile(resultData.getString("img")));
 
         }
     }
